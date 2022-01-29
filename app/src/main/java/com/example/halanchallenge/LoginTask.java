@@ -17,7 +17,7 @@ import java.net.URL;
 import static android.content.ContentValues.TAG;
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
-public class LoginTask extends AsyncTask<String, Void, Boolean> {
+public class LoginTask{} /*extends AsyncTask<String, Void, Boolean> {
 
 
     private String username, password;
@@ -86,3 +86,4 @@ public class LoginTask extends AsyncTask<String, Void, Boolean> {
     }
 
 }
+*/

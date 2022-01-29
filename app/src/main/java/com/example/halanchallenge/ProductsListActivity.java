@@ -10,10 +10,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.androidnetworking.AndroidNetworking;
-import com.androidnetworking.common.Priority;
-import com.androidnetworking.error.ANError;
-import com.androidnetworking.interfaces.JSONObjectRequestListener;
+
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 
@@ -56,43 +53,38 @@ public class ProductsListActivity extends AppCompatActivity {
 
         productsListRV = findViewById(R.id.products_list_rv);
 
-        logoutIV.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+        logoutIV.setOnClickListener(view -> finish());
 
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         productsListRV.setLayoutManager(mLayoutManager);
 
-        AndroidNetworking.initialize(getApplicationContext());
-        AndroidNetworking.get("https://assessment-sn12.halan.io/products")
-                .addHeaders("Authorization", "Bearer " + loginResponse.token)
-                .setPriority(Priority.HIGH)
-                .build()
-                .getAsJSONObject(new JSONObjectRequestListener() {
-
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        productsList = gson.fromJson(String.valueOf(response), ProductsList.class);
-                        productsListAdapter = new ProductsAdapter(getBaseContext(), productsList.products);
-                        productsListAdapter.notifyDataSetChanged();
-                        productsListRV.setAdapter(productsListAdapter);
-                        productsListAdapter.setClickListener(new ProductsAdapter.ItemClickListener() {
-                            @Override
-                            public void onItemClick(View view, int position) {
-
-                            }
-                        });
-
-                    }
-
-                    @Override
-                    public void onError(ANError error) {
-                        Log.e("FastError", error.getMessage());
-                    }
-                });
+//        AndroidNetworking.initialize(getApplicationContext());
+//        AndroidNetworking.get("https://assessment-sn12.halan.io/products")
+//                .addHeaders("Authorization", "Bearer " + loginResponse.token)
+//                .setPriority(Priority.HIGH)
+//                .build()
+//                .getAsJSONObject(new JSONObjectRequestListener() {
+//
+//                    @Override
+//                    public void onResponse(JSONObject response) {
+//                        productsList = gson.fromJson(String.valueOf(response), ProductsList.class);
+//                        productsListAdapter = new ProductsAdapter(getBaseContext(), productsList.products);
+//                        productsListAdapter.notifyDataSetChanged();
+//                        productsListRV.setAdapter(productsListAdapter);
+//                        productsListAdapter.setClickListener(new ProductsAdapter.ItemClickListener() {
+//                            @Override
+//                            public void onItemClick(View view, int position) {
+//
+//                            }
+//                        });
+//
+//                    }
+//
+//                    @Override
+//                    public void onError(ANError error) {
+//                        Log.e("FastError", error.getMessage());
+//                    }
+//                });
 
         userName.setText(loginResponse.profile.name);
         phoneNumber.setText(loginResponse.profile.phone);
