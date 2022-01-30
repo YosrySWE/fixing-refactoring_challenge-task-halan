@@ -1,62 +1,90 @@
-package com.example.halanchallenge;
+package com.example.halanchallenge
 
-import android.os.Parcel;
-import android.os.Parcelable;
+import androidx.recyclerview.widget.RecyclerView
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import com.example.halanchallenge.R
+import com.bumptech.glide.Glide
+import com.example.halanchallenge.LoginTask
+import androidx.appcompat.app.AppCompatActivity
+import android.widget.EditText
+import com.example.halanchallenge.Login
+import android.os.Bundle
+import android.os.AsyncTask
+import android.annotation.SuppressLint
+import org.json.JSONObject
+import android.content.ContentValues
+import org.json.JSONException
+import android.content.Intent
+import com.example.halanchallenge.ProductsListActivity
+import com.example.halanchallenge.Product
+import android.widget.TextView
+import com.arindicatorview.ARIndicatorView
+import com.example.halanchallenge.ImagesAdapter
+import android.os.Parcelable
+import android.text.method.ScrollingMovementMethod
+import com.example.halanchallenge.ProductsAdapter.ItemClickListener
+import com.example.halanchallenge.ProductDetailsActivity
+import android.os.Parcel
+import com.example.halanchallenge.LoginResponse
+import com.example.halanchallenge.ProductsList
+import com.example.halanchallenge.ProductsAdapter
+import com.google.gson.Gson
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.androidnetworking.AndroidNetworking
+import com.androidnetworking.interfaces.JSONObjectRequestListener
+import com.androidnetworking.error.ANError
 
-import java.util.List;
-
-
-public class ProductsList{
-    public String status;
-    public List<Product> products;
+class ProductsList {
+    var status: String = ""
+    var products: MutableList<Product> = mutableListOf()
 }
- class Product implements Parcelable {
-    public int id;
-    public String name_ar;
-    public String deal_description;
-    public String brand;
-    public String image;
-    public String name_en;
-    public int price;
-    public List<String> images;
 
-     protected Product(Parcel in) {
-         id = in.readInt();
-         name_ar = in.readString();
-         deal_description = in.readString();
-         brand = in.readString();
-         image = in.readString();
-         name_en = in.readString();
-         price = in.readInt();
-         images = in.createStringArrayList();
-     }
+class Product protected constructor(`in`: Parcel) : Parcelable {
+    var id: Int
+    var name_ar: String?
+    var deal_description: String?
+    var brand: String?
+    var image: String?
+    var name_en: String?
+    var price: Int
+    var images: List<String>?
+    override fun writeToParcel(dest: Parcel, flags: Int) {
+        dest.writeInt(id)
+        dest.writeString(name_ar)
+        dest.writeString(deal_description)
+        dest.writeString(brand)
+        dest.writeString(image)
+        dest.writeString(name_en)
+        dest.writeInt(price)
+        dest.writeStringList(images)
+    }
 
-     @Override
-     public void writeToParcel(Parcel dest, int flags) {
-         dest.writeInt(id);
-         dest.writeString(name_ar);
-         dest.writeString(deal_description);
-         dest.writeString(brand);
-         dest.writeString(image);
-         dest.writeString(name_en);
-         dest.writeInt(price);
-         dest.writeStringList(images);
-     }
+    override fun describeContents(): Int {
+        return 0
+    }
 
-     @Override
-     public int describeContents() {
-         return 0;
-     }
+    companion object {
+        @JvmField
+        val CREATOR: Parcelable.Creator<Product?> = object : Parcelable.Creator<Product?> {
+            override fun createFromParcel(`in`: Parcel): Product? {
+                return Product(`in`)
+            }
 
-     public static final Creator<Product> CREATOR = new Creator<Product>() {
-         @Override
-         public Product createFromParcel(Parcel in) {
-             return new Product(in);
-         }
+            override fun newArray(size: Int): Array<Product?> {
+                return arrayOfNulls(size)
+            }
+        }
+    }
 
-         @Override
-         public Product[] newArray(int size) {
-             return new Product[size];
-         }
-     };
- }
+    init {
+        id = `in`.readInt()
+        name_ar = `in`.readString()
+        deal_description = `in`.readString()
+        brand = `in`.readString()
+        image = `in`.readString()
+        name_en = `in`.readString()
+        price = `in`.readInt()
+        images = `in`.createStringArrayList()
+    }
+}

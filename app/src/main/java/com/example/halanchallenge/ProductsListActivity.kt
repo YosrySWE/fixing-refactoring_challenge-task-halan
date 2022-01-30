@@ -1,97 +1,92 @@
-package com.example.halanchallenge;
+package com.example.halanchallenge
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import android.content.Intent
+import android.os.Bundle
+import android.util.Log
+import android.view.View
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.androidnetworking.AndroidNetworking
+import com.androidnetworking.common.Priority
+import com.androidnetworking.error.ANError
+import com.androidnetworking.interfaces.JSONObjectRequestListener
+import com.bumptech.glide.Glide
+import com.example.halanchallenge.ProductsAdapter.ItemClickListener
+import com.google.gson.Gson
+import org.json.JSONObject
 
-import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
-
-
-import com.bumptech.glide.Glide;
-import com.google.gson.Gson;
-
-import org.json.JSONObject;
-
-public class ProductsListActivity extends AppCompatActivity {
-
-    String response;
-
-    TextView userName, phoneNumber, email;
-    RecyclerView productsListRV;
-    ImageView userIV,logoutIV;
-
-    LoginResponse loginResponse;
-    ProductsList productsList;
-
-    ProductsAdapter productsListAdapter;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_products_list);
-
-
-        Bundle bundle = getIntent().getExtras();
+class ProductsListActivity : AppCompatActivity() {
+    private var response: String = ""
+    lateinit var userName: TextView
+    lateinit var phoneNumber: TextView
+    lateinit var email: TextView
+    lateinit var productsListRV: RecyclerView
+    lateinit var userIV: ImageView
+    lateinit var logoutIV: ImageView
+    private var loginResponse: LoginResponse = LoginResponse()
+    var productsList: ProductsList = ProductsList()
+    lateinit var productsListAdapter: ProductsAdapter
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_products_list)
+        val bundle = intent.extras
         if (bundle != null) {
-            response = bundle.getString("RESPONSE");
+            response = bundle.getString("RESPONSE").toString()
         }
+        val gson = Gson()
+        loginResponse = gson.fromJson(response, LoginResponse::class.java)?: LoginResponse()
+        userName = findViewById(R.id.username_tv)
+        phoneNumber = findViewById(R.id.phone_number_tv)
+        email = findViewById(R.id.email_tv)
+        userIV = findViewById(R.id.user_iv)
+        logoutIV = findViewById(R.id.logoutIV)
+        if (!loginResponse.profile.image.isNullOrEmpty()) Glide.with(this)
+            .load(loginResponse.profile.image).into(userIV)
+        productsListRV = findViewById(R.id.products_list_rv)
+        productsListAdapter = ProductsAdapter(baseContext, productsList.products)
 
-        Gson gson = new Gson();
-        loginResponse = gson.fromJson(response, LoginResponse.class);
-
-        userName = findViewById(R.id.username_tv);
-        phoneNumber = findViewById(R.id.phone_number_tv);
-        email = findViewById(R.id.email_tv);
-        userIV= findViewById(R.id.user_iv);
-        logoutIV = findViewById(R.id.logoutIV);
-
-        Glide.with(this).load(loginResponse.profile.image).into(userIV);
-
-        productsListRV = findViewById(R.id.products_list_rv);
-
-        logoutIV.setOnClickListener(view -> finish());
-
-        LinearLayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
-        productsListRV.setLayoutManager(mLayoutManager);
-
-//        AndroidNetworking.initialize(getApplicationContext());
-//        AndroidNetworking.get("https://assessment-sn12.halan.io/products")
-//                .addHeaders("Authorization", "Bearer " + loginResponse.token)
-//                .setPriority(Priority.HIGH)
-//                .build()
-//                .getAsJSONObject(new JSONObjectRequestListener() {
-//
-//                    @Override
-//                    public void onResponse(JSONObject response) {
-//                        productsList = gson.fromJson(String.valueOf(response), ProductsList.class);
-//                        productsListAdapter = new ProductsAdapter(getBaseContext(), productsList.products);
-//                        productsListAdapter.notifyDataSetChanged();
-//                        productsListRV.setAdapter(productsListAdapter);
-//                        productsListAdapter.setClickListener(new ProductsAdapter.ItemClickListener() {
-//                            @Override
-//                            public void onItemClick(View view, int position) {
-//
-//                            }
-//                        });
-//
-//                    }
-//
-//                    @Override
-//                    public void onError(ANError error) {
-//                        Log.e("FastError", error.getMessage());
-//                    }
-//                });
-
-        userName.setText(loginResponse.profile.name);
-        phoneNumber.setText(loginResponse.profile.phone);
-        email.setText(loginResponse.profile.email);
+        productsListRV.adapter = productsListAdapter
 
 
+        logoutIV.setOnClickListener { finish() }
+        val mLayoutManager = LinearLayoutManager(applicationContext)
+        productsListRV.layoutManager = mLayoutManager
+        AndroidNetworking.initialize(applicationContext)
+        AndroidNetworking.get("https://assessment-sn12.halan.io/products")
+            .addHeaders("Authorization", "Bearer " + loginResponse.token)
+            .setPriority(Priority.HIGH)
+            .build()
+            .getAsJSONObject(object : JSONObjectRequestListener {
+                override fun onResponse(response: JSONObject) {
+                    productsList = gson.fromJson(response.toString(), ProductsList::class.java)
+                    productsListAdapter.add(productsList)
+                    productsListAdapter.setClickListener(itemClickListener = object :
+                        ItemClickListener {
+                        override fun onItemClick(view: View?, position: Int) {
+                            /*val myBundle = Bundle()
+                            myBundle.putParcelable("ITEM", productsListAdapter.getItem(position))
+                            val myIntent = Intent(
+                                this@ProductsListActivity,
+                                ProductDetailsActivity::class.java
+                            ).putExtra(
+                                "PARCELABLE",
+                                myBundle
+                            )
+                            myIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                            startActivity(myIntent)*/
+                        }
+                    })
+                }
+
+                override fun onError(error: ANError) {
+                    Log.e("FastError", error.message!!)
+                }
+            })
+        userName.text = loginResponse.profile.name
+        phoneNumber.text = loginResponse.profile.phone
+        email.text = loginResponse.profile.email
     }
-
-
 }

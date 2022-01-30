@@ -1,89 +1,85 @@
-package com.example.halanchallenge;
+package com.example.halanchallenge
 
-import android.annotation.SuppressLint;
-import android.content.Context;
-import android.content.Intent;
-import android.os.AsyncTask;
-import android.util.Log;
+import android.annotation.SuppressLint
+import android.content.ContentValues
+import android.content.Context
+import android.content.Intent
+import android.os.AsyncTask
+import android.util.Log
+import com.google.gson.Gson
+import org.json.JSONException
+import org.json.JSONObject
+import java.io.*
+import java.net.HttpURLConnection
+import java.net.MalformedURLException
+import java.net.URL
 
-
-import org.json.JSONException;
-import org.json.JSONObject;
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import static android.content.ContentValues.TAG;
-import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
-
-public class LoginTask{} /*extends AsyncTask<String, Void, Boolean> {
-
-
-    private String username, password;
-    private Context context;
-
-    LoginTask(Context context){
-        this.context =context;
-    }
-
-    @Override
-    protected void onPreExecute() {
+class LoginTask internal constructor(private val context: Context) :
+    AsyncTask<String?, Void?, LoginResponse>() {
+    private var username: String? = null
+    private var password: String? = null
+    override fun onPreExecute() {
         //TODO: Before process async task (show progress bar, loader, fade..)
     }
 
     @SuppressLint("WrongThread")
-    @Override
-    protected Boolean doInBackground(String... params) {
+    override fun doInBackground(vararg params: String?): LoginResponse {
 
         //Set username and password
-        this.username = params[0];
-        this.password = params[1];
-
+        var response = LoginResponse()
+        username = params[0]
+        password = params[1]
         try {
             //Setup URL connection
-            URL url = new URL("https://assessment-sn12.halan.io/auth");
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("POST");
-            connection.addRequestProperty("Content-Type", "application/json");
-            connection.setDoInput(true);
-            connection.setDoOutput(true);
-
-            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(connection.getOutputStream()));
-            JSONObject body = new JSONObject();
-            body.put("username", username);
-            body.put("password", password);
-
-            writer.write(body.toString());
-            writer.close();
-            connection.connect();
-
-
-            int status = connection.getResponseCode();
-            switch (status) {
-                case 200:
-
-                    this.onPostExecute(true);
+            val url = URL("https://assessment-sn12.halan.io/auth")
+            val connection = url.openConnection() as HttpURLConnection
+            connection.requestMethod = "POST"
+            connection.addRequestProperty("Content-Type", "application/json")
+            connection.doInput = true
+            connection.doOutput = true
+            val writer = BufferedWriter(OutputStreamWriter(connection.outputStream))
+            val body = JSONObject()
+            body.put("username", username)
+            body.put("password", password)
+            writer.write(body.toString())
+            writer.close()
+            connection.connect()
+            val status = connection.responseCode
+            val `in`: InputStream = BufferedInputStream(connection.inputStream)
+            response = `in`.readStream()
+            when (status) {
+                200 -> onPostExecute(response)
             }
-        } catch (java.net.MalformedURLException e) {
-            Log.w(TAG, "Exception while constructing URL" + e.getMessage());
-        } catch (IOException | JSONException e) {
-            Log.w(TAG, "Exception occured while logging in: " + e.getMessage());
+        } catch (e: MalformedURLException) {
+            Log.w(ContentValues.TAG, "Exception while constructing URL" + e.message)
+        } catch (e: IOException) {
+            Log.w(ContentValues.TAG, "Exception occured while logging in: " + e.message)
+        } catch (e: JSONException) {
+            Log.w(ContentValues.TAG, "Exception occured while logging in: " + e.message)
         }
-
-        return false;
+        return response
     }
 
-    @Override
-    protected void onPostExecute(Boolean success) {
+    override fun onPostExecute(success: LoginResponse) {
         //TODO: After async task finished based on task success
-        if (success){
-            Intent myIntent = new Intent(context, ProductsListActivity.class);
-            myIntent.setFlags(FLAG_ACTIVITY_NEW_TASK);
-            context.startActivity(myIntent);
-        }
+        if (success.token != null) {
+            val myIntent = Intent(context, ProductsListActivity::class.java)
+            myIntent.putExtra("RESPONSE", Gson().toJson(success))
+            myIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
 
+            context.startActivity(myIntent)
+        }
+    }
+}
+
+fun InputStream.readStream(): LoginResponse{
+    val r = BufferedReader(InputStreamReader(this))
+    val total: StringBuilder = StringBuilder()
+    var line: String?
+    while (r.readLine().also { line = it } != null) {
+        total.append(line).append('\n')
     }
 
+    return Gson().fromJson(total.toString(), LoginResponse::class.java)
 }
-*/
+

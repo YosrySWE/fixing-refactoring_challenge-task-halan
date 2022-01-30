@@ -1,6 +1,6 @@
-package com.example.halanchallenge;
+package com.example.halanchallenge
 
-public class LoginResponse {
-    public String token;
-    public Profile profile;
+class LoginResponse {
+    var token: String? = null
+    var profile: Profile = Profile()
 }

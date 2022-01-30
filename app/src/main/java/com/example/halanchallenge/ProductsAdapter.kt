@@ -1,103 +1,90 @@
-package com.example.halanchallenge;
+package com.example.halanchallenge
 
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.content.Context
+import android.content.Intent
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.bumptech.glide.Glide;
-
-import java.util.List;
-
-import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
-
-public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHolder> {
-
-    private List<Product> mData;
-    private LayoutInflater mInflater;
-    private ItemClickListener mClickListener;
-    private Context context;
-
-    // data is passed into the constructor
-    ProductsAdapter(Context context, List<Product> data) {
-        this.mInflater = LayoutInflater.from(context);
-        this.mData = data;
-        this.context = context;
-    }
+class ProductsAdapter internal constructor(private val context: Context, data: MutableList<Product>) :
+    RecyclerView.Adapter<ProductsAdapter.ViewHolder>() {
+    private var mData: MutableList<Product> = data
+    private val mInflater: LayoutInflater = LayoutInflater.from(context)
+    private var mClickListener: ItemClickListener? = null
 
     // inflates the row layout from xml when needed
-    @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = mInflater.inflate(R.layout.product_item, parent, false);
-        return new ViewHolder(view);
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val view = mInflater.inflate(R.layout.product_item, parent, false)
+        return ViewHolder(view)
     }
 
     // binds the data to the TextView in each row
-    @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        Product item = mData.get(position);
-        if (item != null){
-            holder.myTextView.setText(item.name_ar);
-            Glide.with(holder.productImageView.getContext()).load(item.image).into(holder.productImageView);
-            holder.moreButton.setOnClickListener(new View.OnClickListener(){
-                @Override
-                public void onClick(View view) {
-                    Bundle myBundle = new Bundle();
-                    myBundle.putParcelable("ITEM",item);
-                    Intent myIntent = new Intent(context, ProductDetailsActivity.class).putExtra("PARCELABLE",myBundle);
-                    myIntent.setFlags(FLAG_ACTIVITY_NEW_TASK);
-                    context.startActivity(myIntent);
-                }
-            });
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val item = mData[position]
+        holder.myTextView.text = item.name_ar
+        Glide.with(holder.productImageView.context).load(item.image)
+            .into(holder.productImageView)
+        holder.moreButton.setOnClickListener {
+            val myBundle = Bundle()
+            myBundle.putParcelable("ITEM", item)
+            val myIntent = Intent(context, ProductDetailsActivity::class.java).putExtra(
+                "PARCELABLE",
+                myBundle
+            )
+            myIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            context.startActivity(myIntent)
         }
     }
 
     // total number of rows
-    @Override
-    public int getItemCount() {
-        return mData.size();
+    override fun getItemCount(): Int {
+        return mData.size
     }
 
-
     // stores and recycles views as they are scrolled off screen
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView myTextView;
-        Button moreButton;
-        ImageView productImageView;
-
-        ViewHolder(View itemView) {
-            super(itemView);
-            myTextView = itemView.findViewById(R.id.product_item_title_tv);
-            moreButton = itemView.findViewById(R.id.more_btn);
-            productImageView = itemView.findViewById(R.id.product_iv);
-            itemView.setOnClickListener(this);
+    inner class ViewHolder internal constructor(itemView: View) : RecyclerView.ViewHolder(itemView),
+        View.OnClickListener {
+        var myTextView: TextView
+        var moreButton: Button
+        var productImageView: ImageView
+        override fun onClick(view: View) {
+            if (mClickListener != null) mClickListener!!.onItemClick(view, adapterPosition)
         }
 
-        @Override
-        public void onClick(View view) {
-            if (mClickListener != null) mClickListener.onItemClick(view, getAdapterPosition());
+        init {
+            myTextView = itemView.findViewById(R.id.product_item_title_tv)
+            moreButton = itemView.findViewById(R.id.more_btn)
+            productImageView = itemView.findViewById(R.id.product_iv)
+            itemView.setOnClickListener(this)
         }
     }
 
     // convenience method for getting data at click position
-    Product getItem(int id) {
-        return mData.get(id);
+    fun getItem(id: Int): Product {
+        return mData[id]
     }
 
     // allows clicks events to be caught
-    void setClickListener(ItemClickListener itemClickListener) {
-        this.mClickListener = itemClickListener;
+    fun setClickListener(itemClickListener: ItemClickListener?) {
+        mClickListener = itemClickListener
+    }
+
+    fun add(list: ProductsList) {
+        this.mData.clear()
+        this.mData.addAll(list.products)
+        notifyDataSetChanged()
+
     }
 
     // parent activity will implement this method to respond to click events
-    public interface ItemClickListener {
-        void onItemClick(View view, int position);
+    interface ItemClickListener {
+        fun onItemClick(view: View?, position: Int)
     }
+
 }

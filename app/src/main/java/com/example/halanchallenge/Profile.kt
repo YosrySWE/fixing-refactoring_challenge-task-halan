@@ -1,10 +1,9 @@
-package com.example.halanchallenge;
+package com.example.halanchallenge
 
-public class Profile{
-    public String username;
-    public String image;
-    public String name;
-    public String phone;
-    public String email;
+class Profile {
+    var username: String? = null
+    var image: String? = null
+    var name: String? = null
+    var phone: String? = null
+    var email: String? = null
 }
-

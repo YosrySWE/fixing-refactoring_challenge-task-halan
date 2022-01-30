@@ -1,11 +1,11 @@
-package com.example.halanchallenge;
+package com.example.halanchallenge
 
-import android.content.Context;
+import android.content.Context
 
 // Call async LoginTask
-public class Login{
-    public void login(String username, String password,Context context) {
-//        LoginTask loginTask = new LoginTask(context);
-//        loginTask.execute(username, password);
+class Login {
+    fun login(username: String?, password: String?, context: Context) {
+        val loginTask = LoginTask(context)
+        loginTask.execute(username, password)
     }
 }
