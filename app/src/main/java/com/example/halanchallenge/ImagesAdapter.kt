@@ -1,48 +1,17 @@
 package com.example.halanchallenge
 
-import androidx.recyclerview.widget.RecyclerView
-import android.view.LayoutInflater
-import android.view.ViewGroup
-import com.example.halanchallenge.R
-import com.bumptech.glide.Glide
-import com.example.halanchallenge.LoginTask
-import androidx.appcompat.app.AppCompatActivity
-import android.widget.EditText
-import com.example.halanchallenge.Login
-import android.os.Bundle
-import android.os.AsyncTask
-import android.annotation.SuppressLint
-import org.json.JSONObject
-import android.content.ContentValues
 import android.content.Context
-import org.json.JSONException
-import android.content.Intent
-import com.example.halanchallenge.ProductsListActivity
-import com.example.halanchallenge.Product
-import android.widget.TextView
-import com.arindicatorview.ARIndicatorView
-import com.example.halanchallenge.ImagesAdapter
-import android.os.Parcelable
-import android.text.method.ScrollingMovementMethod
-import com.example.halanchallenge.ProductsAdapter.ItemClickListener
-import com.example.halanchallenge.ProductDetailsActivity
-import android.os.Parcel
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
-import com.example.halanchallenge.LoginResponse
-import com.example.halanchallenge.ProductsList
-import com.example.halanchallenge.ProductsAdapter
-import com.google.gson.Gson
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.androidnetworking.AndroidNetworking
-import com.androidnetworking.interfaces.JSONObjectRequestListener
-import com.androidnetworking.error.ANError
+import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 
 class ImagesAdapter internal constructor(context: Context, data: List<String?>?) :
     RecyclerView.Adapter<ImagesAdapter.ViewHolder>() {
-    private val mData: List<String?>?
-    private val mInflater: LayoutInflater
-    private val context: Context
+    private val mData: List<String?>? = data
+    private val mInflater: LayoutInflater = LayoutInflater.from(context)
 
     // inflates the row layout from xml when needed
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -66,17 +35,7 @@ class ImagesAdapter internal constructor(context: Context, data: List<String?>?)
     // stores and recycles views as they are scrolled off screen
     inner class ViewHolder internal constructor(itemView: View) :
         RecyclerView.ViewHolder(itemView) {
-        var productImageView: ImageView
-
-        init {
-            productImageView = itemView.findViewById(R.id.product_image_IV)
-        }
+        var productImageView: ImageView = itemView.findViewById(R.id.product_image_IV)
     }
 
-    // data is passed into the constructor
-    init {
-        mInflater = LayoutInflater.from(context)
-        mData = data
-        this.context = context
-    }
 }
