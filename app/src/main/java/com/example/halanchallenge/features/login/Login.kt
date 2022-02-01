@@ -1,7 +1,6 @@
 package com.example.halanchallenge.features.login
 
 import android.content.Context
-import com.example.halanchallenge.LoginTask
 
 // Call async LoginTask
 class Login {
