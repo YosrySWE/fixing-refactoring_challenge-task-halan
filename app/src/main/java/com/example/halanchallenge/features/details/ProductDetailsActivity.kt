@@ -8,7 +8,6 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.arindicatorview.ARIndicatorView
-import com.example.halanchallenge.ImagesAdapter
 import com.example.halanchallenge.R
 import com.example.halanchallenge.features.list.Product
 

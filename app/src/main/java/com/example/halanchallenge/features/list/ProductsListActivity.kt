@@ -13,8 +13,7 @@ import com.androidnetworking.common.Priority
 import com.androidnetworking.error.ANError
 import com.androidnetworking.interfaces.JSONObjectRequestListener
 import com.bumptech.glide.Glide
-import com.example.halanchallenge.ProductsAdapter
-import com.example.halanchallenge.ProductsAdapter.ItemClickListener
+import com.example.halanchallenge.features.list.ProductsAdapter.ItemClickListener
 import com.example.halanchallenge.R
 import com.example.halanchallenge.features.login.LoginResponse
 import com.google.gson.Gson
