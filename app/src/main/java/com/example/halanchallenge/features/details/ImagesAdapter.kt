@@ -1,4 +1,4 @@
-package com.example.halanchallenge
+package com.example.halanchallenge.features.details
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.halanchallenge.R
 
 class ImagesAdapter internal constructor(context: Context, data: List<String?>?) :
     RecyclerView.Adapter<ImagesAdapter.ViewHolder>() {
