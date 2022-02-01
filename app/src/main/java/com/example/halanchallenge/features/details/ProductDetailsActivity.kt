@@ -1,4 +1,4 @@
-package com.example.halanchallenge
+package com.example.halanchallenge.features.details
 
 import android.os.Bundle
 import android.os.Parcelable
@@ -8,6 +8,9 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.arindicatorview.ARIndicatorView
+import com.example.halanchallenge.ImagesAdapter
+import com.example.halanchallenge.R
+import com.example.halanchallenge.features.list.Product
 
 class ProductDetailsActivity : AppCompatActivity() {
     lateinit var product: Product

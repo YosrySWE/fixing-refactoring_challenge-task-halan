@@ -1,6 +1,5 @@
-package com.example.halanchallenge
+package com.example.halanchallenge.features.list
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -14,7 +13,10 @@ import com.androidnetworking.common.Priority
 import com.androidnetworking.error.ANError
 import com.androidnetworking.interfaces.JSONObjectRequestListener
 import com.bumptech.glide.Glide
+import com.example.halanchallenge.ProductsAdapter
 import com.example.halanchallenge.ProductsAdapter.ItemClickListener
+import com.example.halanchallenge.R
+import com.example.halanchallenge.features.login.LoginResponse
 import com.google.gson.Gson
 import org.json.JSONObject
 

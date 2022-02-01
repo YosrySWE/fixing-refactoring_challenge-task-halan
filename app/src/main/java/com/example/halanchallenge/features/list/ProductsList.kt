@@ -1,39 +1,7 @@
-package com.example.halanchallenge
+package com.example.halanchallenge.features.list
 
-import androidx.recyclerview.widget.RecyclerView
-import android.view.LayoutInflater
-import android.view.ViewGroup
-import com.example.halanchallenge.R
-import com.bumptech.glide.Glide
-import com.example.halanchallenge.LoginTask
-import androidx.appcompat.app.AppCompatActivity
-import android.widget.EditText
-import com.example.halanchallenge.Login
-import android.os.Bundle
-import android.os.AsyncTask
-import android.annotation.SuppressLint
-import org.json.JSONObject
-import android.content.ContentValues
-import org.json.JSONException
-import android.content.Intent
-import com.example.halanchallenge.ProductsListActivity
-import com.example.halanchallenge.Product
-import android.widget.TextView
-import com.arindicatorview.ARIndicatorView
-import com.example.halanchallenge.ImagesAdapter
 import android.os.Parcelable
-import android.text.method.ScrollingMovementMethod
-import com.example.halanchallenge.ProductsAdapter.ItemClickListener
-import com.example.halanchallenge.ProductDetailsActivity
 import android.os.Parcel
-import com.example.halanchallenge.LoginResponse
-import com.example.halanchallenge.ProductsList
-import com.example.halanchallenge.ProductsAdapter
-import com.google.gson.Gson
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.androidnetworking.AndroidNetworking
-import com.androidnetworking.interfaces.JSONObjectRequestListener
-import com.androidnetworking.error.ANError
 
 class ProductsList {
     var status: String = ""

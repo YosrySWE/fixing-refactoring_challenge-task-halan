@@ -14,9 +14,9 @@
         android:theme="@style/Theme.HalanChallenge"
         tools:ignore="AllowBackup">
 
-        <activity android:name=".ProductDetailsActivity"/>
-        <activity android:name=".ProductsListActivity" />
-        <activity android:name=".LoginActivity"
+        <activity android:name=".features.details.ProductDetailsActivity"/>
+        <activity android:name=".features.list.ProductsListActivity" />
+        <activity android:name=".features.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

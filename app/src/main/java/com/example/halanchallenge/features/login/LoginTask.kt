@@ -1,4 +1,4 @@
-package com.example.halanchallenge
+package com.example.halanchallenge.features.login
 
 import android.annotation.SuppressLint
 import android.content.ContentValues
@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.AsyncTask
 import android.util.Log
+import com.example.halanchallenge.features.list.ProductsListActivity
 import com.google.gson.Gson
 import org.json.JSONException
 import org.json.JSONObject
@@ -72,7 +73,7 @@ class LoginTask internal constructor(private val context: Context) :
     }
 }
 
-fun InputStream.readStream(): LoginResponse{
+fun InputStream.readStream(): LoginResponse {
     val r = BufferedReader(InputStreamReader(this))
     val total: StringBuilder = StringBuilder()
     var line: String?

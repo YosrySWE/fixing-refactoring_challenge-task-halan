@@ -1,9 +1,11 @@
-package com.example.halanchallenge
+package com.example.halanchallenge.features
 
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
+import com.example.halanchallenge.features.login.Login
+import com.example.halanchallenge.R
 
 class LoginActivity : AppCompatActivity() {
     var userNameEt: EditText? = null
