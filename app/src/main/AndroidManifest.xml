@@ -13,13 +13,23 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HalanChallenge"
         tools:ignore="AllowBackup">
-
-        <activity android:name=".features.details.ProductDetailsActivity"/>
-        <activity android:name=".features.list.ProductsListActivity" />
-        <activity android:name=".features.LoginActivity"
+        <activity
+            android:name=".features.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".features.details.ProductDetailsActivity" />
+        <activity android:name=".features.list.ProductsListActivity" />
+        <activity
+            android:name=".features.LoginActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
