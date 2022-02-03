@@ -3,14 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/fragment_home">
+    app:startDestination="@+id/fragment_login">
 
 
     <fragment
-        android:name="com.nagwa.nagwa_mvp_task.ui.fragments.home.HomeFragment"
-        tools:layout="@layout/fragment_home"
-        android:id="@+id/fragment_home">
+        android:name="com.example.halanchallenge.features.login.LoginFragment"
+        tools:layout="@layout/fragment_login"
+        android:id="@+id/fragment_login">
 
+<!--
         <action
             android:id="@+id/action_home_to_downloads"
             app:destination="@id/fragment_downloads"
@@ -19,23 +20,19 @@
             app:popEnterAnim="@animator/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim"
             />
+-->
 
 
     </fragment>
-
     <fragment
-        android:name="com.nagwa.nagwa_mvp_task.ui.fragments.downloads.DownloadsFragment"
-        tools:layout="@layout/fragment_downloads"
-        android:id="@+id/fragment_downloads">
-        <action
-            android:id="@+id/action_downloads_to_home"
-            app:destination="@id/fragment_home"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@animator/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim"
-            app:popUpToInclusive="true"
-            app:popUpTo="@id/fragment_home"/>
+        android:name="com.example.halanchallenge.features.list.ProductsListFragment"
+        tools:layout="@layout/fragment_products_list"
+        android:id="@+id/fragment_products">
 
+    </fragment>
+    <fragment
+        android:name="com.example.halanchallenge.features.details.ProductDetailsFragment"
+        tools:layout="@layout/fragment_product_details"
+        android:id="@+id/fragment_details">
     </fragment>
 </navigation>

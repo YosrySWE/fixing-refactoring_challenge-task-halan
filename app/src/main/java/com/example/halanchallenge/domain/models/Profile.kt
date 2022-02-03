@@ -1,4 +1,4 @@
-package com.example.halanchallenge.features.login
+package com.example.halanchallenge.domain.models
 
 class Profile {
     var username: String? = null

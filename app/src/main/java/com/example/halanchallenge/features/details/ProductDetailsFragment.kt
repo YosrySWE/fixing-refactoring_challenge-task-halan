@@ -6,15 +6,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import com.example.halanchallenge.R
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ProductDetailsFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = ProductDetailsFragment()
-    }
-
-    private lateinit var viewModel: ProductDetailsViewModel
+    private val viewModel: ProductDetailsViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -22,11 +21,34 @@ class ProductDetailsFragment : Fragment() {
     ): View? {
         return inflater.inflate(R.layout.fragment_product_details, container, false)
     }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(ProductDetailsViewModel::class.java)
-        // TODO: Use the ViewModel
-    }
-
 }
+
+
+/*
+*
+*     lateinit var product: Product
+    lateinit var description: TextView
+    lateinit var title: TextView
+    lateinit var price: TextView
+    lateinit var back: Button
+    lateinit var indicatorView: ARIndicatorView
+    lateinit var imagesListRV: RecyclerView
+    lateinit var imagesAdapter: ImagesAdapter
+*
+*
+*         description = findViewById(R.id.product_description_tv)
+        title = findViewById(R.id.product_title_tv)
+        back = findViewById(R.id.materialButton)
+        price = findViewById(R.id.product_price_tv)
+        imagesListRV = findViewById(R.id.product_images_banner)
+        indicatorView = findViewById(R.id.ar_indicator)
+        val bundle = intent.getBundleExtra("PARCELABLE")
+        product = (bundle!!.getParcelable<Parcelable>("ITEM") as Product?)!!
+        back.setOnClickListener { finish() }
+        description.text = product.deal_description
+        title.text = product.name_ar
+        description.movementMethod = ScrollingMovementMethod()
+        price.text = "كاش           ${product.price}جنيه"
+        imagesAdapter = ImagesAdapter(this, product.images)
+        imagesListRV.adapter = imagesAdapter
+        indicatorView.attachTo(imagesListRV, true)*/

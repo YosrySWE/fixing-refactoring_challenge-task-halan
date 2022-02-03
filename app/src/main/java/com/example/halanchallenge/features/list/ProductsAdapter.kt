@@ -12,9 +12,12 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.halanchallenge.R
-import com.example.halanchallenge.features.details.ProductDetailsActivity
+import com.example.halanchallenge.domain.models.Product
 
-class ProductsAdapter internal constructor(private val context: Context, data: MutableList<Product>) :
+class ProductsAdapter internal constructor(
+    private val context: Context,
+    data: MutableList<Product>
+) :
     RecyclerView.Adapter<ProductsAdapter.ViewHolder>() {
     private var mData: MutableList<Product> = data
     private val mInflater: LayoutInflater = LayoutInflater.from(context)
@@ -33,14 +36,14 @@ class ProductsAdapter internal constructor(private val context: Context, data: M
         Glide.with(holder.productImageView.context).load(item.image)
             .into(holder.productImageView)
         holder.moreButton.setOnClickListener {
-            val myBundle = Bundle()
-            myBundle.putParcelable("ITEM", item)
-            val myIntent = Intent(context, ProductDetailsActivity::class.java).putExtra(
-                "PARCELABLE",
-                myBundle
-            )
-            myIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-            context.startActivity(myIntent)
+//            val myBundle = Bundle()
+//            myBundle.putParcelable("ITEM", item)
+//            val myIntent = Intent(context, ProductDetailsActivity::class.java).putExtra(
+//                "PARCELABLE",
+//                myBundle
+//            )
+//            myIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+//            context.startActivity(myIntent)
         }
     }
 
@@ -77,12 +80,12 @@ class ProductsAdapter internal constructor(private val context: Context, data: M
         mClickListener = itemClickListener
     }
 
-    fun add(list: ProductsList) {
-        this.mData.clear()
-        this.mData.addAll(list.products)
-        notifyDataSetChanged()
-
-    }
+//    fun add(list: ProductsList) {
+//        this.mData.clear()
+//        this.mData.addAll(list.products)
+//        notifyDataSetChanged()
+//
+//    }
 
     // parent activity will implement this method to respond to click events
     interface ItemClickListener {
