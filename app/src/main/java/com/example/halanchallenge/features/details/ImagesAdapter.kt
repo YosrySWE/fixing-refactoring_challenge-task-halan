@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
 import com.example.halanchallenge.databinding.ImageViewItemBinding
 
@@ -26,7 +27,11 @@ class ImagesAdapter :
     inner class ViewHolder internal constructor(private val binding: ImageViewItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: String) {
-            Glide.with(binding.productImageIV.context).load(item).into(binding.productImageIV)
+            val circularProgressDrawable = CircularProgressDrawable(binding.productImageIV.context)
+            circularProgressDrawable.strokeWidth = 5f
+            circularProgressDrawable.centerRadius = 30f
+            circularProgressDrawable.start()
+            Glide.with(binding.productImageIV.context).load(item).placeholder(circularProgressDrawable).into(binding.productImageIV)
 
         }
     }

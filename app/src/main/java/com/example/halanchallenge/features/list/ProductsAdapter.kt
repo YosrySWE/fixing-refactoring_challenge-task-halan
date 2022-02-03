@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.halanchallenge.R
 import com.example.halanchallenge.databinding.ProductItemBinding
 import com.example.halanchallenge.domain.models.Product
 
@@ -30,9 +31,9 @@ class ProductsAdapter internal constructor(
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Product) {
             binding.productItemTitleTv.text = item.name_ar
-            Glide.with(binding.productIv.context).load(item.image)
+            Glide.with(binding.productIv.context).load(item.image).placeholder(R.drawable.ic_logo)
                 .into(binding.productIv)
-            binding.moreBtn.setOnClickListener {
+            binding.content.setOnClickListener {
                 callback?.onItemClick(item)
             }
         }

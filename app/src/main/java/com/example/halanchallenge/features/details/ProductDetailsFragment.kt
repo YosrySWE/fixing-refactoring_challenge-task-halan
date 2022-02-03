@@ -43,7 +43,7 @@ class ProductDetailsFragment : Fragment() {
             viewModel.state.collect {
                 when (viewModel.state.value) {
                     is DetailsViewState.Idle -> {
-                        binding.materialButton.setOnClickListener { findNavController().navigateUp() }
+                        binding.backButton.setOnClickListener { findNavController().navigateUp() }
                         binding.productDescriptionTv.text = args.item.deal_description
                         binding.productTitleTv.text = args.item.name_ar
                         binding.productDescriptionTv.movementMethod = ScrollingMovementMethod()

@@ -39,9 +39,7 @@ class ProductsListFragment : Fragment(), ProductsAdapter.ItemClickListener {
         adapter = ProductsAdapter(this)
         viewModel.intentChannel.trySend(ProductsIntent.None)
         render()
-        binding.logoutIV.setOnClickListener {
-            findNavController().navigateUp()
-        }
+
 
     }
 
@@ -72,7 +70,7 @@ class ProductsListFragment : Fragment(), ProductsAdapter.ItemClickListener {
                     is ProductsViewState.Init -> {
                         binding.usernameTv.text = args.profile.name
                         binding.phoneNumberTv.text = args.profile.phone
-                        binding.emailTv.text = args.profile.email
+//                        binding.emailTv.text = args.profile.email
                         Glide.with(requireContext()).load(args.profile.image).override(100).into(binding.userIv)
                         binding.productsListRv.layoutManager = LinearLayoutManager(requireContext())
                         binding.productsListRv.adapter = adapter
