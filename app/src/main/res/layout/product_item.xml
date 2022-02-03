@@ -10,16 +10,16 @@
         android:id="@+id/product_item_title_tv"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        app:layout_constraintWidth_max="wrap"
         android:textSize="16sp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"
+        android:paddingHorizontal="16dp"
         android:maxLines="2"
         android:textColor="@color/black"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintWidth_percent="0.7"
+
         app:layout_constraintStart_toEndOf="@id/cardView"
         app:layout_constraintTop_toTopOf="@+id/cardView"
-        tools:text="sadadssdasdasassadasdasdsaddiaishaisoioasdsadpaskpasidposadihisahidhiashihjkdsahjkasdhjksadhkjdsahkdhsakkasjhdjkasdhjksdahjksadhjksdasjdhjksadhjsdhjksadhkjaahsdjkashdjhsadkdsadasddsaassdsadds" />
+        tools:text="sfsafasf" />
 
     <Button
         android:id="@+id/more_btn"

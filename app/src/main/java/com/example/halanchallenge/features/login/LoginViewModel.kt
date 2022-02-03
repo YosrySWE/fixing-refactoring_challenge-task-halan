@@ -1,7 +1,6 @@
 package com.example.halanchallenge.features.login
-
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
+import com.example.halanchallenge.data.cache.DataStoreManager
 import com.example.halanchallenge.utils.Result
 import com.example.halanchallenge.domain.models.Login
 import com.example.halanchallenge.domain.usecase.LoginUseCase
@@ -12,12 +11,16 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class LoginViewModel @Inject constructor(private val loginUseCase: LoginUseCase) : ViewModel() {
+class LoginViewModel @Inject constructor(
+    private val loginUseCase: LoginUseCase,
+    val dataStoreManager: DataStoreManager
+) : ViewModel() {
     val intentChannel = Channel<LoginIntent>(Channel.UNLIMITED)
 
     init {
         intentChannel.trySend(LoginIntent.None)
         processIntent()
+
     }
 
     private val _state = MutableStateFlow<LoginViewState>(LoginViewState.Init)
@@ -54,7 +57,10 @@ class LoginViewModel @Inject constructor(private val loginUseCase: LoginUseCase)
                 }.collect {
                     when (it) {
                         is Result.Success -> {
-                            _state.value = LoginViewState.SuccessLogin(it.data)
+                            launch {
+                                dataStoreManager.saveToken(it.data?.token!!)
+                            }
+                            _state.value = LoginViewState.SuccessLogin(it.data?.data!!)
                         }
                         is Result.Error -> {
                             _state.value = LoginViewState.ErrorLogin(it.message)
@@ -66,3 +72,5 @@ class LoginViewModel @Inject constructor(private val loginUseCase: LoginUseCase)
 
 
 }
+
+

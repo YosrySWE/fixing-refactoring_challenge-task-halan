@@ -13,20 +13,27 @@ import javax.inject.Singleton
 
 @Singleton
 class LoginRepositoryImp @Inject constructor(
-    private val loginService: HalanService
-) : LoginRepository{
-    override suspend fun login(loginRequest: Login): Flow<Result<Profile, String>> {
+    private val loginService: HalanService.LoginService,
+) : LoginRepository {
+    override suspend fun login(loginRequest: Login): Flow<Result<WrappedResponse<Profile>, String>> {
         return flow {
             val api = loginService.login(loginRequest)
-            if(api.isSuccessful){
+            if (api.isSuccessful) {
+
                 val response = api.body() as WrappedResponse<Profile>
-                if(response.status =="OK" && response.token.isNotEmpty()){
-                    emit(Result.Success(response.data!!))
-                }else{
+
+                if (response.status == "OK" && !response.token.isNullOrEmpty()) {
+                    emit(Result.Success(response))
+                } else {
                     emit(Result.Error(response.message))
                 }
-            }else{
-                emit(Result.Error(api.errorBody().toString()))
+            } else {
+                if (api.code() == 400) {
+                    // Bad Request
+                    emit(Result.Error("Bad username, username must be 6 : 15 char length"))
+                } else {
+                    emit(Result.Error(api.message()))
+                }
             }
         }
     }

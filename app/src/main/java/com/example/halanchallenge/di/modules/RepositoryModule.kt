@@ -1,10 +1,15 @@
 package com.example.halanchallenge.di.modules
 
+import android.content.Context
+import com.example.halanchallenge.data.cache.DataStoreManager
 import com.example.halanchallenge.data.repository.LoginRepositoryImp
+import com.example.halanchallenge.data.repository.ProductsRepositoryImp
 import com.example.halanchallenge.domain.repository.LoginRepository
+import com.example.halanchallenge.domain.repository.ProductsRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
@@ -13,8 +18,21 @@ import javax.inject.Singleton
 class RepositoryModule {
     @Provides
     @Singleton
-    fun providerLoginRepository(repository: LoginRepositoryImp): LoginRepository {
+    fun provideLoginRepository(repository: LoginRepositoryImp): LoginRepository {
         return repository
     }
+
+    @Provides
+    @Singleton
+    fun provideProductsRepository(repository: ProductsRepositoryImp): ProductsRepository {
+        return repository
+    }
+
+    @Provides
+    @Singleton
+    fun dataStoreManager(@ApplicationContext appContext: Context): DataStoreManager =
+        DataStoreManager(appContext)
+
+
 
 }
