@@ -1,7 +1,6 @@
 package com.example.halanchallenge.di.modules
 
-import com.example.halanchallenge.data.HalanService
-import com.example.halanchallenge.di.qualifiers.AuthOkHttpClient
+import com.example.halanchallenge.data.remote.HalanService
 import com.example.halanchallenge.di.qualifiers.NormalOkHttpClient
 import com.example.halanchallenge.utils.BASE_URL
 import com.google.gson.GsonBuilder
@@ -10,11 +9,9 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
-import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)

@@ -11,28 +11,37 @@
         tools:layout="@layout/fragment_login"
         android:id="@+id/fragment_login">
 
-<!--
         <action
-            android:id="@+id/action_home_to_downloads"
-            app:destination="@id/fragment_downloads"
+            android:id="@+id/action_login_to_products"
+            app:destination="@id/fragment_products"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@animator/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim"
-            />
--->
-
-
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
     <fragment
         android:name="com.example.halanchallenge.features.list.ProductsListFragment"
         tools:layout="@layout/fragment_products_list"
         android:id="@+id/fragment_products">
 
+        <action
+            android:id="@+id/action_products_to_details"
+            app:destination="@id/fragment_details"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:launchSingleTop="false"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <argument
+            android:name="profile"
+            app:argType="com.example.halanchallenge.domain.models.Profile" />
     </fragment>
     <fragment
         android:name="com.example.halanchallenge.features.details.ProductDetailsFragment"
         tools:layout="@layout/fragment_product_details"
         android:id="@+id/fragment_details">
+        <argument
+            android:name="item"
+            app:argType="com.example.halanchallenge.domain.models.Product" />
     </fragment>
 </navigation>

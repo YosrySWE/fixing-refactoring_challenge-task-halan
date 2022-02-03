@@ -2,7 +2,7 @@ package com.example.halanchallenge.features.login
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.halanchallenge.data.repository.Result
+import com.example.halanchallenge.utils.Result
 import com.example.halanchallenge.domain.models.Login
 import com.example.halanchallenge.domain.usecase.LoginUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel

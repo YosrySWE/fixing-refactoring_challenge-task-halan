@@ -1,4 +1,4 @@
-package com.example.halanchallenge.data
+package com.example.halanchallenge.data.remote
 
 import com.example.halanchallenge.domain.models.*
 import kotlinx.coroutines.flow.Flow
