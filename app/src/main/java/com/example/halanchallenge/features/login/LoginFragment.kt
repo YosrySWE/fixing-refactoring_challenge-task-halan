@@ -13,6 +13,8 @@ import androidx.navigation.R
 import androidx.navigation.fragment.findNavController
 import com.example.halanchallenge.databinding.FragmentLoginBinding
 import com.example.halanchallenge.domain.models.Login
+import com.example.halanchallenge.utils.ValidationUtil
+import com.example.halanchallenge.utils.ValidationUtil.REASONS.*
 import com.example.halanchallenge.utils.safeNavigate
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
@@ -53,24 +55,19 @@ class LoginFragment : Fragment() {
     }
 
     private fun isValid(userName: String, password: String): Boolean {
-        return when {
-            userName.isEmpty() -> {
-                binding.usernameEt.error = "username is required"
+        val data = ValidationUtil.validateLogin(userName, password)
+        return when(data.tag) {
+            USERNAME -> {
+                binding.usernameEt.error = data.message
                 false
             }
-            password.isEmpty() -> {
-                binding.passwordEt.error = "password is required"
+            PASSWORD -> {
+                binding.passwordEt.error = data.message
                 false
             }
-            userName.length !in 15 downTo 6 -> {
-                binding.usernameEt.error = "username must be 6 : 15 char length"
-                false
-            }
-            password.length < 8 -> {
-                binding.passwordEt.error = "password length must be bigger than or equal 8"
-                false
-            }
-            else -> {
+            NONE -> {
+                binding.usernameEt.error = null
+                binding.passwordEt.error = null
                 true
             }
         }
