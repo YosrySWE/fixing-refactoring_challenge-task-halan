@@ -1,8 +1,10 @@
 package com.example.halanchallenge.features.login
 import androidx.lifecycle.*
-import com.example.halanchallenge.data.cache.DataStoreManager
+import com.example.halanchallenge.data.repository.DataStoreRepositoryImp
+import com.example.halanchallenge.domain.repository.cache.models.TokenPreferences
+import com.example.halanchallenge.domain.repository.cache.models.UserPreferences
 import com.example.halanchallenge.utils.Result
-import com.example.halanchallenge.domain.models.Login
+import com.example.halanchallenge.domain.repository.remote.models.Login
 import com.example.halanchallenge.domain.usecase.LoginUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -13,7 +15,7 @@ import javax.inject.Inject
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     private val loginUseCase: LoginUseCase,
-    val dataStoreManager: DataStoreManager
+    val dataStoreRepositoryImp: DataStoreRepositoryImp
 ) : ViewModel() {
     val intentChannel = Channel<LoginIntent>(Channel.UNLIMITED)
 
@@ -58,12 +60,13 @@ class LoginViewModel @Inject constructor(
                     when (it) {
                         is Result.Success -> {
                             launch {
-                                dataStoreManager.saveToken(it.data?.token!!)
+                                dataStoreRepositoryImp.saveToken(TokenPreferences(it.data?.token!!))
+                                dataStoreRepositoryImp.saveCredentials(UserPreferences(loginRequest.userName, loginRequest.password, isLoggedIn = true))
                             }
-                            _state.value = LoginViewState.SuccessLogin(it.data?.data!!)
+                            _state.value = LoginViewState.Success(it.data?.data!!)
                         }
                         is Result.Error -> {
-                            _state.value = LoginViewState.ErrorLogin(it.message)
+                            _state.value = LoginViewState.Error(it.message)
                         }
                     }
                 }

@@ -1,4 +1,4 @@
-package com.example.halanchallenge.domain.models
+package com.example.halanchallenge.domain.repository.remote.models
 
 import com.google.gson.annotations.SerializedName
 

@@ -1,10 +1,9 @@
 package com.example.halanchallenge.data.repository
 
-import com.example.halanchallenge.data.cache.DataStoreManager
-import com.example.halanchallenge.data.remote.HalanService
-import com.example.halanchallenge.domain.models.Product
-import com.example.halanchallenge.domain.models.WrappedListResponse
-import com.example.halanchallenge.domain.repository.ProductsRepository
+import com.example.halanchallenge.data.source.remote.HalanService
+import com.example.halanchallenge.domain.repository.remote.models.Product
+import com.example.halanchallenge.domain.repository.remote.models.WrappedListResponse
+import com.example.halanchallenge.domain.repository.remote.ProductsRepository
 import com.example.halanchallenge.utils.Result
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -14,7 +13,7 @@ import javax.inject.Singleton
 @Singleton
 class ProductsRepositoryImp @Inject constructor(
     private val productService: HalanService.ProductsService,
-    private val dataStoreManager: DataStoreManager
+    private val dataStoreRepositoryImp: DataStoreRepositoryImp
 ) : ProductsRepository {
     override suspend fun products(): Flow<Result<WrappedListResponse<Product>, String>> {
         return flow {

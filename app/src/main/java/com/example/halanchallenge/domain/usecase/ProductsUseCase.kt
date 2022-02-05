@@ -1,10 +1,8 @@
 package com.example.halanchallenge.domain.usecase
 
-import com.example.halanchallenge.domain.models.Product
-import com.example.halanchallenge.domain.models.Profile
-import com.example.halanchallenge.domain.models.WrappedListResponse
-import com.example.halanchallenge.domain.models.WrappedResponse
-import com.example.halanchallenge.domain.repository.ProductsRepository
+import com.example.halanchallenge.domain.repository.remote.models.Product
+import com.example.halanchallenge.domain.repository.remote.models.WrappedListResponse
+import com.example.halanchallenge.domain.repository.remote.ProductsRepository
 import com.example.halanchallenge.utils.Result
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject

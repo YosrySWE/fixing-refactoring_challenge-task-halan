@@ -13,7 +13,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.halanchallenge"
-        minSdkVersion 21
+        minSdkVersion 23
         targetSdkVersion 31
         versionCode 1
         versionName "1.0"
@@ -94,14 +94,14 @@ dependencies {
     implementation "androidx.datastore:datastore-preferences:1.0.0"
 
 
-//    // Room
-//    def room_version = "2.4.1"
-//    implementation "androidx.room:room-runtime:$room_version"
-//    kapt "androidx.room:room-compiler:$room_version"
-//    implementation("androidx.room:room-ktx:$room_version")
-//    implementation "androidx.room:room-rxjava2:$room_version"
-//    implementation 'android.arch.persistence.room:runtime:1.1.1'
-//    annotationProcessor 'android.arch.persistence.room:compiler:1.1.1'
+    // Room
+    def room_version = "2.4.1"
+    implementation "androidx.room:room-runtime:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
+    implementation("androidx.room:room-ktx:$room_version")
+    implementation "androidx.room:room-rxjava2:$room_version"
+    implementation 'android.arch.persistence.room:runtime:1.1.1'
+    annotationProcessor 'android.arch.persistence.room:compiler:1.1.1'
 
     // Hilt DI
     def hilt_version = "2.38.1"

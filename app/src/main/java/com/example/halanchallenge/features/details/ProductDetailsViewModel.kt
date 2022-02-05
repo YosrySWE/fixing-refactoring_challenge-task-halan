@@ -9,7 +9,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ProductDetailsViewModel @Inject constructor() : ViewModel() {
 
-    private var _state = MutableStateFlow(DetailsViewState.Idle)
+    private var _state = MutableStateFlow(DetailsViewState.Init)
     val state: StateFlow<DetailsViewState> get() = _state
 
 

@@ -64,6 +64,15 @@
         app:layout_constraintBottom_toBottomOf="parent"
         android:indeterminateTint="@color/colorPrimary"/>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/offline_mode"
+        android:id="@+id/connectionTextView"
+        app:layout_constraintEnd_toEndOf="@+id/login_button"
+        app:layout_constraintStart_toStartOf="@+id/login_button"
+        app:layout_constraintBottom_toTopOf="@+id/login_button"
+        android:layout_marginBottom="8dp"/>
     <Button
         android:id="@+id/login_button"
         android:layout_width="0dp"

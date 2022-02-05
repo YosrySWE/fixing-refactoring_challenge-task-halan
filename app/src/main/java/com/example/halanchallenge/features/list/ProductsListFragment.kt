@@ -13,7 +13,7 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.halanchallenge.databinding.FragmentProductsListBinding
-import com.example.halanchallenge.domain.models.Product
+import com.example.halanchallenge.domain.repository.remote.models.Product
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 
@@ -64,7 +64,7 @@ class ProductsListFragment : Fragment(), ProductsAdapter.ItemClickListener {
                         binding.productsListRv.adapter = adapter
                     }
                     is ProductsViewState.Error -> {
-                        Toast.makeText(requireContext(), it.error, Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
                         findNavController().navigateUp()
                     }
                     is ProductsViewState.Init -> {

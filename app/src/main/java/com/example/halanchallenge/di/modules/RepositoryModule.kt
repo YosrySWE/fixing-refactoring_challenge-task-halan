@@ -1,11 +1,11 @@
 package com.example.halanchallenge.di.modules
 
 import android.content.Context
-import com.example.halanchallenge.data.cache.DataStoreManager
+import com.example.halanchallenge.data.repository.DataStoreRepositoryImp
 import com.example.halanchallenge.data.repository.LoginRepositoryImp
 import com.example.halanchallenge.data.repository.ProductsRepositoryImp
-import com.example.halanchallenge.domain.repository.LoginRepository
-import com.example.halanchallenge.domain.repository.ProductsRepository
+import com.example.halanchallenge.domain.repository.remote.LoginRepository
+import com.example.halanchallenge.domain.repository.remote.ProductsRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -30,8 +30,8 @@ class RepositoryModule {
 
     @Provides
     @Singleton
-    fun dataStoreManager(@ApplicationContext appContext: Context): DataStoreManager =
-        DataStoreManager(appContext)
+    fun dataStoreManager(@ApplicationContext appContext: Context): DataStoreRepositoryImp =
+        DataStoreRepositoryImp(appContext)
 
 
 

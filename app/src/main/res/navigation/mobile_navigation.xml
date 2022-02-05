@@ -39,7 +39,7 @@
         <!--/* If true then also remove the destination from stack while popup */-->
         <argument
             android:name="profile"
-            app:argType="com.example.halanchallenge.domain.models.Profile" />
+            app:argType="com.example.halanchallenge.domain.repository.remote.models.Profile" />
     </fragment>
     <fragment
         android:name="com.example.halanchallenge.features.details.ProductDetailsFragment"
@@ -47,6 +47,6 @@
         android:id="@+id/fragment_details">
         <argument
             android:name="item"
-            app:argType="com.example.halanchallenge.domain.models.Product" />
+            app:argType="com.example.halanchallenge.domain.repository.remote.models.Product" />
     </fragment>
 </navigation>

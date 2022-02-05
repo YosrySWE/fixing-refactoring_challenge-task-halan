@@ -8,7 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.halanchallenge.R
 import com.example.halanchallenge.databinding.ProductItemBinding
-import com.example.halanchallenge.domain.models.Product
+import com.example.halanchallenge.domain.repository.remote.models.Product
+import com.example.halanchallenge.utils.extensions.loadImage
 
 class ProductsAdapter internal constructor(
     val callback: ItemClickListener? = null
@@ -18,7 +19,6 @@ class ProductsAdapter internal constructor(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = ProductItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
-
     }
 
     // binds the data to the TextView in each row
@@ -31,8 +31,7 @@ class ProductsAdapter internal constructor(
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Product) {
             binding.productItemTitleTv.text = item.name_ar
-            Glide.with(binding.productIv.context).load(item.image).placeholder(R.drawable.ic_logo)
-                .into(binding.productIv)
+            binding.productIv.loadImage(item.image!!)
             binding.content.setOnClickListener {
                 callback?.onItemClick(item)
             }

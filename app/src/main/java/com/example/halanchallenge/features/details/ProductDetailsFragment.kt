@@ -42,7 +42,7 @@ class ProductDetailsFragment : Fragment() {
         lifecycleScope.launchWhenStarted {
             viewModel.state.collect {
                 when (viewModel.state.value) {
-                    is DetailsViewState.Idle -> {
+                    is DetailsViewState.Init -> {
                         binding.backButton.setOnClickListener { findNavController().navigateUp() }
                         binding.productDescriptionTv.text = args.item.deal_description
                         binding.productTitleTv.text = args.item.name_ar

@@ -1,7 +1,7 @@
 package com.example.halanchallenge.di.modules
 
-import com.example.halanchallenge.data.cache.DataStoreManager
-import com.example.halanchallenge.data.remote.HalanService
+import com.example.halanchallenge.data.repository.DataStoreRepositoryImp
+import com.example.halanchallenge.data.source.remote.HalanService
 import com.example.halanchallenge.di.qualifiers.AuthOkHttpClient
 import com.example.halanchallenge.di.qualifiers.NormalOkHttpClient
 import com.example.halanchallenge.utils.BASE_URL
@@ -24,7 +24,7 @@ object NetworkModule {
     @AuthOkHttpClient
     @Provides
     fun provideAuthOkHttpClient(
-        dataStoreManager: DataStoreManager
+        dataStoreRepositoryImp: DataStoreRepositoryImp
     ): OkHttpClient {
         val interceptor = HttpLoggingInterceptor()
         interceptor.level = HttpLoggingInterceptor.Level.NONE
@@ -38,7 +38,7 @@ object NetworkModule {
                 runBlocking {
                     val original = chain.request()
                     val request = original.newBuilder()
-                        .addHeader("Authorization", "Bearer ${dataStoreManager.token.first()}")
+                        .addHeader("Authorization", "Bearer ${dataStoreRepositoryImp.token.first()}")
                         .addHeader("Content-Type", "application/json")
                         .method(original.method, original.body)
                         .build()

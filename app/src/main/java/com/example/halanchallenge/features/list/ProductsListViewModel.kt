@@ -55,7 +55,8 @@ class ProductsListViewModel @Inject constructor(
                 }.collect {
                     when (it) {
                         is Result.Success -> {
-                            _state.value = ProductsViewState.Success(it.data!!.data?.toMutableList()!!)
+                            _state.value =
+                                ProductsViewState.Success(it.data!!.data?.toMutableList()!!)
                         }
                         is Result.Error -> {
                             _state.value = ProductsViewState.Error(it.message)

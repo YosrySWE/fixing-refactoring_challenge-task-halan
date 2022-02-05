@@ -1,10 +1,10 @@
 package com.example.halanchallenge.data.repository
 
-import com.example.halanchallenge.data.remote.HalanService
-import com.example.halanchallenge.domain.models.Login
-import com.example.halanchallenge.domain.models.Profile
-import com.example.halanchallenge.domain.models.WrappedResponse
-import com.example.halanchallenge.domain.repository.LoginRepository
+import com.example.halanchallenge.data.source.remote.HalanService
+import com.example.halanchallenge.domain.repository.remote.models.Login
+import com.example.halanchallenge.domain.repository.remote.models.Profile
+import com.example.halanchallenge.domain.repository.remote.models.WrappedResponse
+import com.example.halanchallenge.domain.repository.remote.LoginRepository
 import com.example.halanchallenge.utils.Result
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

@@ -1,4 +1,4 @@
-package com.example.halanchallenge.domain.models
+package com.example.halanchallenge.domain.repository.remote.models
 
 import android.os.Parcel
 import android.os.Parcelable
