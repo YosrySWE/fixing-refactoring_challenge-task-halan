@@ -24,8 +24,7 @@ data class Product(
         parcel.readString(),
         parcel.readInt(),
         parcel.createStringArrayList()
-    ) {
-    }
+    )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeInt(id)
