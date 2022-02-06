@@ -10,6 +10,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import org.junit.After
 import org.junit.Before
 
 import org.junit.Test
@@ -26,13 +27,16 @@ class SaveCredentialsCacheUseCaseTest {
         dataStoreRepository = DataStoreRepositoryImp(appContext)
 
     }
+
+    @After
+    fun tearDown(){
+
+    }
     @Test
-    operator fun invoke() {
+    operator fun invoke() = runBlocking{
         val request = UserPreferences(username = "UserName12112", password = "123456789", isLoggedIn = true)
-        GlobalScope.launch {
-            val result = dataStoreRepository.saveCredentials(request).first()
-            assertThat(result).isTrue()
-        }
+        val result = dataStoreRepository.saveCredentials(request).first()
+        assertThat(result).isTrue()
     }
 
     @Test
@@ -43,6 +47,7 @@ class SaveCredentialsCacheUseCaseTest {
             assertThat(result.username).isNotEmpty()
         }
     }
+
 
 
 }

@@ -58,6 +58,7 @@ object NetworkModule {
     fun provideNormalOkHttpClient(): OkHttpClient {
         return OkHttpClient.Builder()
             .connectTimeout(10, TimeUnit.SECONDS)
+
             .build()
     }
 
@@ -68,6 +69,7 @@ object NetworkModule {
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create(GsonBuilder().setLenient().create()))
             .client(okHttpClient)
+
             .build()
             .create(HalanService.LoginService::class.java)
 

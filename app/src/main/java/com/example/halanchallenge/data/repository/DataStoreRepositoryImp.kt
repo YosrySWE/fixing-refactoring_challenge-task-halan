@@ -1,6 +1,7 @@
 package com.example.halanchallenge.data.repository
 
 import android.content.Context
+import androidx.annotation.VisibleForTesting
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.core.preferencesOf
@@ -76,6 +77,17 @@ class DataStoreRepositoryImp @Inject constructor(@ApplicationContext val context
 
     override suspend fun getCredentials(): Flow<UserPreferences> {
         return userPreferences
+    }
+
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    override suspend fun clearAllCache(){
+        context.dataStore.edit {preferences->
+            preferences[PreferencesKeys.IS_LOGGED_IN]  = false
+            preferences[PreferencesKeys.USER_NAME]  = ""
+            preferences[PreferencesKeys.PASSWORD]  = ""
+            preferences[PreferencesKeys.TOKEN_KEY]  = ""
+
+        }
     }
 
 

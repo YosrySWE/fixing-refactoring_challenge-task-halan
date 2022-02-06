@@ -1,5 +1,6 @@
 package com.example.halanchallenge.domain.repository.cache
 
+import androidx.annotation.VisibleForTesting
 import com.example.halanchallenge.domain.repository.cache.models.TokenPreferences
 import com.example.halanchallenge.domain.repository.cache.models.UserPreferences
 import kotlinx.coroutines.flow.Flow
@@ -18,4 +19,7 @@ interface DataStoreRepository {
     suspend fun saveCredentials(userCredentials: UserPreferences): Flow<Boolean>
 
     suspend fun getCredentials(): Flow<UserPreferences>
+
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    suspend fun clearAllCache()
 }
