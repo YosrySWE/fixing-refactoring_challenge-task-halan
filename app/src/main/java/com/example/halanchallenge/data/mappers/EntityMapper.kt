@@ -16,7 +16,7 @@ fun ProductEntity.toDataTransferObject() = Product(
 )
 
 fun Profile.toEntity() = ProfileEntity(
-    this.username, this.image, this.name, this.phone, this.email
+    this.username!!, this.image, this.name, this.phone, this.email
 )
 
 fun ProfileEntity.toDataTransferObject() = Profile(

@@ -6,5 +6,5 @@ import com.example.halanchallenge.utils.Result
 import kotlinx.coroutines.flow.Flow
 
 interface ProductsRepository {
-    suspend fun products(): Flow<Result<WrappedListResponse<Product>, String>>
+    suspend fun products(token: String): Flow<Result<WrappedListResponse<Product>, String>>
 }

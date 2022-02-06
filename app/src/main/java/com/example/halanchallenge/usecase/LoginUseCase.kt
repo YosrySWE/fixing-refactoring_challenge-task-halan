@@ -1,4 +1,4 @@
-package com.example.halanchallenge.domain.usecase
+package com.example.halanchallenge.usecase
 
 import com.example.halanchallenge.utils.Result
 import com.example.halanchallenge.domain.repository.remote.models.Login

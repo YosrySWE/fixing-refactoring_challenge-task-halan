@@ -31,7 +31,7 @@ abstract class BaseFragment<VB : ViewBinding> : Fragment() {
     private val networkRequest = NetworkRequest.Builder()
         .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
         .build()
-
+    @Suppress("UNCHECKED_CAST")
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -45,7 +45,7 @@ abstract class BaseFragment<VB : ViewBinding> : Fragment() {
             ViewGroup::class.java,
             Boolean::class.java
         )
-        _binding = method.invoke(null, layoutInflater, container, false) as VB
+        _binding = method.invoke(null, layoutInflater, container, false) as VB?
         return _binding!!.root
     }
 

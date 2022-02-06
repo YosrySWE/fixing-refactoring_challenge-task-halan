@@ -1,11 +1,12 @@
 package com.example.halanchallenge.features.login
 
-import android.os.Handler
-import android.os.Looper
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.example.halanchallenge.R
 import com.example.halanchallenge.databinding.FragmentLoginBinding
@@ -44,18 +45,17 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
 
     override fun online() {
         if (binding.connectionTextView.scaleY == 1f) {
+
             binding.connectionTextView.apply {
                 text = context.getString(R.string.online)
                 setTextColor(resources.getColor(R.color.colorPrimary, resources.newTheme()))
+                binding.connectionTextView.animate().scaleY(0f).setDuration(2000).start()
             }
-            Handler(Looper.getMainLooper()).postDelayed({
-                binding.connectionTextView.animate().scaleY(0f).setDuration(450).start()
-            }, 2000)
         }
     }
 
     override fun offline() {
-        if(binding.connectionTextView.scaleY == 0f){
+        if (binding.connectionTextView.scaleY == 0f) {
             binding.connectionTextView.apply {
                 text = context.getString(R.string.offline_mode)
                 setTextColor(resources.getColor(R.color.black, resources.newTheme()))
@@ -66,26 +66,36 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
 
     // render
     override fun render() {
-        lifecycleScope.launchWhenStarted {
-            viewModel.state.collect {
-                when (it) {
-                    is LoginViewState.IsLoading -> {
-                        binding.loginButton.isEnabled = !it.isLoading
-                        if (it.isLoading) {
-                            binding.progressBar.visibility = View.VISIBLE
-                        } else {
-                            binding.progressBar.visibility = View.GONE
-                        }
-                    }
-                    is LoginViewState.Success -> {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                Log.i("Halan", "current state is ${lifecycle.currentState}")
 
-                        val dest = LoginFragmentDirections.actionLoginToProducts(it.response)
-                        findNavController().safeNavigate(dest)
+                viewModel.state.collect {
+                    when (it) {
+                        is LoginViewState.IsLoading -> {
+                            binding.loginButton.isEnabled = !it.isLoading
+                            if (it.isLoading) {
+                                binding.progressBar.visibility = View.VISIBLE
+                            } else {
+                                binding.progressBar.visibility = View.GONE
+                            }
+                        }
+                        is LoginViewState.Success -> {
+                            val dest = LoginFragmentDirections.actionLoginToProducts(it.response)
+                            findNavController().safeNavigate(dest)
+                        }
+                        is LoginViewState.Error -> {
+                            Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
+                        }
+                        is LoginViewState.NavigateToProducts -> {
+                            Log.i("Halan", "LoginViewState.NavigateToProducts block")
+                            viewModel.intentChannel.send(LoginIntent.NavigateScreen(it.username))
+                        }
+                        is LoginViewState.IsLoggedInState -> viewModel.intentChannel.trySend(
+                            LoginIntent.IsLoggedIn
+                        )
+                        is LoginViewState.Init -> viewModel.intentChannel.trySend(LoginIntent.IsLoggedIn)
                     }
-                    is LoginViewState.Error -> {
-                        Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
-                    }
-                    is LoginViewState.Init -> Unit
                 }
             }
         }
@@ -105,5 +115,9 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
         }
     }
 
+    override fun onDestroyView() {
+        viewModel.clear()
+        super.onDestroyView()
+    }
 
 }

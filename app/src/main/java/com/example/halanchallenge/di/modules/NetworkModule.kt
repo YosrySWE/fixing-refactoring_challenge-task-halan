@@ -10,8 +10,8 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.runBlocking
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -35,15 +35,19 @@ object NetworkModule {
             .addInterceptor(interceptor)
             .retryOnConnectionFailure(true)
             .addNetworkInterceptor { chain ->
-                runBlocking {
-                    val original = chain.request()
-                    val request = original.newBuilder()
-                        .addHeader("Authorization", "Bearer ${dataStoreRepositoryImp.token.first()}")
+                val original = chain.request()
+                val request = original.newBuilder()
+                CoroutineScope(Dispatchers.IO).launch {
+                    val def = async { dataStoreRepositoryImp.getToken().first().token }
+                    request.addHeader(
+                            "Authorization",
+                            "Bearer ${def.await()}")
                         .addHeader("Content-Type", "application/json")
                         .method(original.method, original.body)
-                        .build()
-                    chain.proceed(request)
                 }
+
+                chain.proceed(request.build())
+
             }
 
         return okHttpBuilder.build()

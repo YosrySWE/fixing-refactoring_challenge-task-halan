@@ -19,6 +19,7 @@
             app:launchSingleTop="true"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@id/mobile_navigation"
             app:popUpToInclusive="true" />
     </fragment>
     <fragment
@@ -40,6 +41,12 @@
         <argument
             android:name="profile"
             app:argType="com.example.halanchallenge.domain.repository.remote.models.Profile" />
+        <action
+            android:id="@+id/action_fragment_products_to_mobile_navigation"
+            app:destination="@id/fragment_products"
+            app:popUpTo="@id/fragment_products"
+            app:popUpToInclusive="true"
+            app:launchSingleTop="true" />
     </fragment>
     <fragment
         android:name="com.example.halanchallenge.features.details.ProductDetailsFragment"

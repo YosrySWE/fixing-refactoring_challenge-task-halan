@@ -1,16 +1,18 @@
 package com.example.halanchallenge.data.source.local
 
-import android.app.Application
 import androidx.room.Database
-import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.example.halanchallenge.data.source.local.dao.ProductDao
 import com.example.halanchallenge.data.source.local.dao.ProfileDao
 import com.example.halanchallenge.data.source.local.entities.ProductEntity
 import com.example.halanchallenge.data.source.local.entities.ProfileEntity
+import com.example.halanchallenge.di.qualifiers.ApplicationScope
 import com.example.halanchallenge.utils.Converters
-import com.example.halanchallenge.utils.DATABASE_NAME
+import kotlinx.coroutines.CoroutineScope
+import javax.inject.Inject
+import javax.inject.Provider
+import javax.inject.Singleton
 
 @Database(
     entities = [ProfileEntity::class, ProductEntity::class],
@@ -18,23 +20,13 @@ import com.example.halanchallenge.utils.DATABASE_NAME
     exportSchema = false
 )
 @TypeConverters(Converters::class)
+@Singleton
 abstract class HalanDatabase : RoomDatabase() {
     abstract fun productDao(): ProductDao
     abstract fun profileDao(): ProfileDao
 
-    companion object {
-        @Volatile //Marks the JVM backing field of the annotated property as volatile, meaning that writes to this field are immediately made visible to other threads
-        private var instance: HalanDatabase? = null
-        private val LOCK = Any()
-        operator fun invoke(app: Application) = instance ?: synchronized(LOCK) {
-            instance ?: buildDatabase(app).also { instance = it }
-        }
-
-        private fun buildDatabase(application: Application) = Room.databaseBuilder(
-            application,
-            HalanDatabase::class.java,
-            DATABASE_NAME
-        )
-            .build()
-    }
+    class Callback @Inject constructor(
+        private val database: Provider<HalanDatabase>,
+        @ApplicationScope private val applicationScope: CoroutineScope
+    ) : RoomDatabase.Callback()
 }
